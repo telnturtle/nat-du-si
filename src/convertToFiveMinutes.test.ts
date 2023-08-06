@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { convertToFiveMinuteRepresentation } from './convertToFiveMinutes.ts'
+import { convertToFiveMinuteRepresentation } from './convertToFiveMinutes'
 
 const toBeTested = convertToFiveMinuteRepresentation
 
