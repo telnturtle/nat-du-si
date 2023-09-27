@@ -106,7 +106,10 @@ function App() {
       <div css={csss.div2}>
         {hangulTable.map((row, i) =>
           row.map((col, j) => (
-            <span style={{ color: tableIndexes.has(encodeHM([i, j])) ? hangulTableColor[i][j] : undefined }}>
+            <span
+              key={`${i}.${j}`}
+              style={{ color: tableIndexes.has(encodeHM([i, j])) ? hangulTableColor[i][j] : undefined }}
+            >
               {col}
             </span>
           )),
