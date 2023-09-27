@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { hangulTable, hangulTableColor } from './hangulTable'
 import { toTableIndex } from './toTableIndex'
 import { convertToFiveMinuteRepresentation } from './convertToFiveMinutes'
