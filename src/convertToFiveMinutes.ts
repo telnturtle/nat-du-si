@@ -1,11 +1,7 @@
 const f24 = (n: number) => (24 + n) % 24
 const f60 = (n: number) => (60 + n) % 60
 
-const convertToFiveMinuteRepresentation_ = (
-  hour: number,
-  minute: number,
-  second: number,
-): [number, number] => {
+const convertToFiveMinuteRepresentation_ = (hour: number, minute: number, second: number): [number, number] => {
   if (minute === 57 && second >= 30) {
     return [hour + 1, 0]
   }
@@ -35,11 +31,7 @@ const convertToFiveMinuteRepresentation_ = (
   return [hour, minute]
 }
 
-export const convertToFiveMinuteRepresentation = (
-  hour: number,
-  minute: number,
-  second: number,
-) => {
+export const convertToFiveMinuteRepresentation = (hour: number, minute: number, second: number): [number, number] => {
   const [h, m] = convertToFiveMinuteRepresentation_(hour, minute, second)
   return [f24(h), f60(m)]
 }
