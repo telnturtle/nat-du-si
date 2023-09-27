@@ -37,6 +37,7 @@ function App() {
       align-items: center;
       background-color: rgb(26 26 26);
       color: rgb(220 220 220);
+      position: relative;
     `,
     div1: css`
       font-size: 2rem;
@@ -45,6 +46,8 @@ function App() {
       margin-bottom: 1rem;
       font-variant-numeric: tabular-nums;
       opacity: 0;
+      position: absolute;
+      transform: translate(0, -12rem);
 
       animation: blink 12s ease 4s infinite;
 
