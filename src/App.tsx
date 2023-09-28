@@ -1,9 +1,9 @@
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
-import { hangulTable, hangulTableColor } from './hangulTable'
-import { toTableIndex } from './toTableIndex'
 import { convertToFiveMinuteRepresentation } from './convertToFiveMinutes'
 import { DecodedHM, encodeHM } from './encodeHM'
+import { hangulTable, hangulTableColor } from './hangulTable'
+import { toTableIndex } from './toTableIndex'
 import { toTimeRep } from './toTimeRep'
 import { useCss } from './useCss'
 
@@ -40,48 +40,41 @@ function App() {
       position: relative;
     `,
     div1: css`
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 900;
       font-family: 'SUIT Variable', sans-serif;
       margin-bottom: 1rem;
       font-variant-numeric: tabular-nums;
       opacity: 0;
       position: absolute;
-      transform: translate(0, -12rem);
+      transform: translate(0, -14rem);
 
-      animation: blink 12s ease 4s infinite;
+      animation: 7.4s ease-out 4.4s alternate infinite blink;
 
       @keyframes blink {
-        0% {
+        0%,
+        16% {
           opacity: 0;
         }
-        20% {
-          opacity: 0.88;
-        }
-        60% {
-          opacity: 0.88;
-        }
-        80% {
-          opacity: 0;
-        }
+        84%,
         100% {
-          opacity: 0;
+          opacity: 0.88;
         }
       }
     `,
     div2: css`
-      width: 20rem;
-      height: 20rem;
+      width: 21rem;
+      height: 21rem;
       display: grid;
       grid-template-rows: repeat(5, 1fr);
       grid-template-columns: repeat(5, 1fr);
       gap: 0.5rem;
       font-family: 'SUIT Variable', sans-serif;
-      font-weight: 900;
+      font-weight: 850;
       opacity: 0;
 
-      animation: fadeIn 3.6s ease 1s forwards;
-      @keyframes fadeIn {
+      animation: fade-in 3.6s ease 1s forwards;
+      @keyframes fade-in {
         from {
           opacity: 0;
         }
@@ -94,8 +87,8 @@ function App() {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 2rem;
-        color: #555;
+        font-size: 3rem;
+        color: rgb(50 50 50);
       }
     `,
   })
