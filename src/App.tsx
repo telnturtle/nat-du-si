@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { convertToFiveMinuteRepresentation } from './convertToFiveMinutes'
 import { DecodedHM, encodeHM } from './encodeHM'
 import { hangulTable, hangulTableColor } from './hangulTable'
@@ -8,19 +8,76 @@ import { toTimeRep } from './toTimeRep'
 import { useCss } from './useCss'
 
 function App() {
-  const [hour, setHour] = useState(0)
-  const [minute, setMinute] = useState(0)
-  const [second, setSecond] = useState(0)
+  // 실제 시간
+
+  const [currentHour, setCurrentHour] = useState(0)
+  const [currentMinute, setCurrentMinute] = useState(0)
+  const [currentSecond, setCurrentSecond] = useState(0)
+
+  // 실제 시간을 1초마다 업데이트
 
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date()
-      setHour(now.getHours())
-      setMinute(now.getMinutes())
-      setSecond(now.getSeconds())
+      setCurrentHour(now.getHours())
+      setCurrentMinute(now.getMinutes())
+      setCurrentSecond(now.getSeconds())
     }, 1000)
     return () => clearInterval(timer)
   }, [])
+
+  // controlled time or real time
+
+  const [useControlledTime, setUseControlledTime] = useState(false)
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
+    setUseControlledTime(e.currentTarget.checked)
+  }, [])
+
+  // controlled 시간
+
+  const [controlledHour, setControlledHour] = useState(0)
+  const [controlledMinute, setControlledMinute] = useState(0)
+
+  const handleChangeRange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value)
+    const newHour = Math.floor(value / 12)
+    const newMinute = (value % 12) * 5
+    setControlledHour(newHour)
+    setControlledMinute(newMinute)
+  }
+
+  const handleClickButton: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    const { name } = e.currentTarget as HTMLButtonElement
+
+    if (name === '-h') {
+      // minus an hour, but not less than 0
+      setControlledHour((h) => (h + 24 - 1) % 24)
+    } else if (name === '-5m') {
+      // minus 5 minutes, but not less than 0
+      setControlledMinute((m) => (m + 60 - 5) % 60)
+      controlledMinute === 0 && setControlledHour((h) => (h + 24 - 1) % 24)
+    } else if (name === 'now') {
+      // set to now
+      setControlledHour(currentHour)
+      setControlledMinute(currentMinute)
+    } else if (name === '+5m') {
+      // plus 5 minutes, but not more than 59
+      setControlledMinute((m) => (m + 5) % 60)
+      controlledMinute === 55 && setControlledHour((h) => (h + 1) % 24)
+    } else {
+      // plus an hour, but not more than 23
+      setControlledHour((h) => (h + 1) % 24)
+    }
+  }
+
+  // 보여줄 시간
+
+  const hour = useControlledTime ? controlledHour : currentHour
+  const minute = useControlledTime ? controlledMinute : currentMinute
+  const second = useControlledTime ? 0 : currentSecond
+
+  // 테이블 인덱스
 
   const [h, m] = convertToFiveMinuteRepresentation(hour, minute, second)
 
@@ -45,11 +102,14 @@ function App() {
       font-family: 'SUIT Variable', sans-serif;
       margin-bottom: 1rem;
       font-variant-numeric: tabular-nums;
-      opacity: 0;
+      opacity: 1;
       position: absolute;
       transform: translate(0, -14rem);
 
-      animation: 7.4s ease-out 4.4s alternate infinite blink;
+      &.blink {
+        animation: 7.4s ease-out 4.4s alternate infinite blink;
+        opacity: 0;
+      }
 
       @keyframes blink {
         0%,
@@ -91,11 +151,47 @@ function App() {
         color: rgb(50 50 50);
       }
     `,
+    div3: css`
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      transform: translate(0, calc(14rem + 50%));
+      gap: 1rem;
+
+      & input[type='checkbox'] {
+        transform: scale(2);
+      }
+
+      &.almost-invisible {
+        opacity: 0.005;
+      }
+
+      & input[type='range'] {
+        width: 95vw;
+      }
+
+      & .invisible {
+        display: none;
+      }
+
+      & .buttons:not(.invisible) {
+        display: flex;
+        gap: 0.5rem;
+
+        & button {
+          color: initial;
+        }
+      }
+    `,
   })
 
   return (
     <div css={csss.div}>
-      <div css={csss.div1}>{toTimeRep(hour, minute, second)}</div>
+      <div className={useControlledTime ? '' : 'blink'} css={csss.div1}>
+        {toTimeRep(hour, minute, second)}
+      </div>
       <div css={csss.div2}>
         {hangulTable.map((row, i) =>
           row.map((col, j) => (
@@ -107,6 +203,25 @@ function App() {
             </span>
           )),
         )}
+      </div>
+      <div {...(useControlledTime ? null : { className: 'almost-invisible' })} css={csss.div3}>
+        <input type="checkbox" onChange={handleChange} />
+        <div {...(useControlledTime ? null : { className: 'invisible' })}>
+          <input type="range" min={0} max={287} value={hour * 12 + minute / 5} onChange={handleChangeRange} />
+        </div>
+        <div className={`buttons ${useControlledTime ? '' : 'invisible'}`}>
+          {[
+            ['-h', '← hour'],
+            ['-5m', '← 5 minute'],
+            ['now', 'now'],
+            ['+5m', '5 minute →'],
+            ['+h', 'hour →'],
+          ].map(([name, text]) => (
+            <button key={name} onClick={handleClickButton} name={name}>
+              {text}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )
