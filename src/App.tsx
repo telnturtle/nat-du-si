@@ -36,7 +36,7 @@ function App() {
 
   // controlled 시간
 
-  const [controlledHour, setControlledHour] = useState(0)
+  const [controlledHour, setControlledHour] = useState(14)
   const [controlledMinute, setControlledMinute] = useState(0)
 
   const handleChangeRange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,7 +165,7 @@ function App() {
       }
 
       &.almost-invisible {
-        opacity: 0.005;
+        opacity: 0.02;
       }
 
       & input[type='range'] {
