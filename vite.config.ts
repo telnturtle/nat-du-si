@@ -14,7 +14,13 @@ export default defineConfig({
         plugins: ['@emotion/babel-plugin'],
       },
     }),
-    VitePWA({ registerType: 'autoUpdate' }),
+    VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
+      manifestFilename: 'manifest.json',
+    }),
   ],
   build: {
     sourcemap: false,
