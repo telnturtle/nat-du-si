@@ -29,7 +29,7 @@ export default defineConfig({
             type: 'image/png',
           },
         ],
-        start_url: '.',
+        start_url: 'nat-du-si',
         display: 'standalone',
         theme_color: 'rgb(252 64 183)',
         background_color: 'rgb(26 26 26)',
