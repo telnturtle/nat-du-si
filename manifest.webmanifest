@@ -1,1 +1,1 @@
-{"name":"낮 두 시","short_name":"nat-du-si","start_url":".","display":"standalone","background_color":"rgb(26 26 26)","lang":"en","scope":"./","icons":[{"src":"./icon-si.png","sizes":"128x128","type":"image/png"}],"theme_color":"rgb(252 64 183)"}
+{"name":"낮 두 시","short_name":"nat-du-si","start_url":".","display":"standalone","background_color":"rgb(26 26 26)","lang":"en","scope":"/nat-du-si/","icons":[{"src":"./icon-si.png","sizes":"128x128","type":"image/png"}],"theme_color":"rgb(252 64 183)"}
