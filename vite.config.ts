@@ -24,7 +24,7 @@ export default defineConfig({
         short_name: 'nat-du-si',
         icons: [
           {
-            src: '/icon-si.png',
+            src: './icon-si.png',
             sizes: '128x128',
             type: 'image/png',
           },
