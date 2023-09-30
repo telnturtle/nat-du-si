@@ -19,7 +19,21 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       },
-      manifestFilename: 'manifest.json',
+      manifest: {
+        name: '낮 두 시',
+        short_name: 'nat-du-si',
+        icons: [
+          {
+            src: 'icon-si.png',
+            sizes: '128x128',
+            type: 'image/png',
+          },
+        ],
+        start_url: '.',
+        display: 'standalone',
+        theme_color: 'rgb(252 64 183)',
+        background_color: 'rgb(26 26 26)',
+      },
     }),
   ],
   build: {
