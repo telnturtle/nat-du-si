@@ -6,7 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './',
+  base: 'nat-du-si',
   plugins: [
     react({
       jsxImportSource: '@emotion/react',
