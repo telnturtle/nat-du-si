@@ -7,6 +7,14 @@ import { toTableIndex } from './toTableIndex'
 import { toTimeRep } from './toTimeRep'
 import { useCss } from './useCss'
 
+const CONTROL_BUTTONS = [
+  ['-h', '← hour'],
+  ['-5m', '← 5 minute'],
+  ['now', 'now'],
+  ['+5m', '5 minute →'],
+  ['+h', 'hour →'],
+] as const
+
 function App() {
   // 실제 시간
 
@@ -92,7 +100,7 @@ function App() {
       flex-flow: column;
       justify-content: center;
       align-items: center;
-      background-color: rgb(26 26 26);
+      background: var(--background-color);
       color: rgb(220 220 220);
       position: relative;
     `,
@@ -210,14 +218,8 @@ function App() {
           <input type="range" min={0} max={287} value={hour * 12 + minute / 5} onChange={handleChangeRange} />
         </div>
         <div className={`buttons ${useControlledTime ? '' : 'invisible'}`}>
-          {[
-            ['-h', '← hour'],
-            ['-5m', '← 5 minute'],
-            ['now', 'now'],
-            ['+5m', '5 minute →'],
-            ['+h', 'hour →'],
-          ].map(([name, text]) => (
-            <button key={name} onClick={handleClickButton} name={name}>
+          {CONTROL_BUTTONS.map(([name, text]) => (
+            <button key={name} name={name} onClick={handleClickButton}>
               {text}
             </button>
           ))}

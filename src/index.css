@@ -9,6 +9,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --background-color: rgb(26 26 26);
 }
 
 
@@ -17,6 +19,7 @@ body {
   display: flex;
   flex: 1;
   min-width: 320px;
+  background: var(--background-color);
 }
 
 #root {
